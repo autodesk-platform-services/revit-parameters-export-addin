@@ -35,7 +35,6 @@ namespace RevitParametersAddin
             _token = threeleggedtoken;
             app = _app;
             TokenHandler tk = new TokenHandler();
-            var dtoken = tk.Get2LeggedForgeToken();
             Parameters param = new Parameters();
             InitializeComponent();
 
