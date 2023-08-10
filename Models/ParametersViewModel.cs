@@ -11,6 +11,8 @@ namespace RevitParametersAddin.Models
         public bool IsSelected { get; set; }
         public string Name { get; set; }
         // Add other properties as required
-        public string Type { get; set; }
+        public string TypeOrInstance { get; set; }
+
+        public string Id { get; set; }
     }
 }

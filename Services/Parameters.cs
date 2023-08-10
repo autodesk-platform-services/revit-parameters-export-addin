@@ -5,6 +5,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using Autodesk.Revit.DB.Visual;
+using System.Text;
 
 namespace RevitParametersAddin.Services
 {
@@ -93,22 +94,23 @@ namespace RevitParametersAddin.Services
                 }
             }
             return collections;
-        }       
-        
+        }
 
-        public async Task<IEnumerable<dynamic>> GetParameters(string accountId, string groupId, string collectionId, string token)
+        public async Task<List<Models.ParametersViewModel>> GetParameters(string accountId, string groupId, string collectionId, string token)
         {
-            var parameters = new List<dynamic>();
+            List<Models.ParametersViewModel> parameters = new List<Models.ParametersViewModel>();
+
             var accId = accountId.Replace("b.", "");
             var gpId = groupId.Replace("b.", "").Replace("-", "");
             var colId = collectionId.Replace("b.", "").Replace("-", "");
+
             try
             {
-                var client1 = new HttpClient();
-                var request1 = new HttpRequestMessage(HttpMethod.Get, "https://developer.api.autodesk.com/parameters/v1/accounts/" + accId + "/groups/" + gpId + "/collections/" + colId + "/parameters");
-                request1.Headers.Add("Authorization", "Bearer " + token);
-                request1.Headers.Add("Cookie", "PF=QJwvb8Hfm5ValfxedgOkRw");
-                var response = await client1.SendAsync(request1);                
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Get, "https://developer.api.autodesk.com/parameters/v1/accounts/" + accId + "/groups/" + gpId + "/collections/" + colId + "/parameters");
+                request.Headers.Add("Authorization", "Bearer " + token);
+                request.Headers.Add("Cookie", "PF=QJwvb8Hfm5ValfxedgOkRw");
+                var response = await client.SendAsync(request);                
                 if (response.IsSuccessStatusCode)
                 {
                     var dynamicObject = JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
@@ -123,7 +125,7 @@ namespace RevitParametersAddin.Services
                             }
                         }
                         if (!metaType.Equals("NONE")){
-                            parameters.Add(new Tuple<string, string, string>(Convert.ToString(field.name), metaType, Convert.ToString(field.id)));
+                            parameters.Add(new Models.ParametersViewModel() { IsSelected = false, Name = Convert.ToString(field.name), TypeOrInstance = metaType, Id = Convert.ToString(field.id) });
                         }
                     }
                 }
@@ -141,23 +143,31 @@ namespace RevitParametersAddin.Services
             var accId = accountId.Replace("b.", "");
             var gpId = accountId.Replace("b.", "");
             var colId = collectionId.Replace("b.", "");
-            
 
-            var client = new HttpClient
+            var paramData = new[]
             {
-                BaseAddress = new Uri("https://developer.api.autodesk.com/")
+                new {
+                    id = Guid.NewGuid().ToString("N"),
+                    name = parameterName,
+                    dataTypeId = "autodesk.spec.string:url-2.0.0",
+                    readOnly = false
+                }
             };
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var values=new List<KeyValuePair<string, string>>();
-            values.Add(new KeyValuePair<string, string>("id", Guid.NewGuid().ToString("N")));
-            values.Add(new KeyValuePair<string, string>("name", parameterName));
-            values.Add(new KeyValuePair<string, string>("dataTypeId", "autodesk.spec:spec.bool-1.0.0"));
-            values.Add(new KeyValuePair<string, string>("readOnly", "false"));
-            var content = new FormUrlEncodedContent(values);
 
-            var response = await client.PostAsync("parameters/v1/accounts/" + accId + "/groups/" + gpId + "/collections/" + gpId + "/parameters", content);
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://developer.api.autodesk.com/parameters/v1/accounts/" + accId + "/groups/" + gpId + "/collections/" + colId + "/parameters");
+            
+            request.Headers.Add("Authorization", "Bearer " + token);
+
+            string jsonStr = JsonConvert.SerializeObject(paramData);
+            var content = new StringContent(jsonStr, null, "application/json");
+            request.Content = content;
+            
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            //var response = await client.PostAsync("parameters/v1/accounts/" + accId + "/groups/" + gpId + "/collections/" + colId + "/parameters", content);
+
             if (response.IsSuccessStatusCode)
             {
                 return true;

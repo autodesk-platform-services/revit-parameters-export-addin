@@ -30,13 +30,30 @@ namespace RevitParametersAddin
             account_id = _account_id;
             group_id = _group_id;
             collection_id = _collection_id;
+
             InitializeComponent();
         }
 
         private async void AddNewParameter(object sender, RoutedEventArgs e)
         {
             string parameterName = ParameterName.Text;
-            await param.CreateParameter(account_id, collection_id, parameterName, token);
+            
+            var result = await param.CreateParameter(account_id, collection_id, parameterName, token);
+
+            this.Hide();
+
+            string message = "";
+
+            if (result)
+            {
+                message = "Parameter was successfully created.";
+            }
+            else
+            {
+                message = "Creating Parameter failed.";
+            }
+
+            TaskDialog.Show("Create Parameter Result", message);
         }
     }
 }

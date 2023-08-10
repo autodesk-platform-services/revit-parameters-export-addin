@@ -31,19 +31,24 @@ namespace RevitParametersAddin.TokenHandlers
     {
         public static string Login()
         {
-            List<Forge> members = new List<Forge>
-            {
-                new Forge
-                {
-                    ClientId = "",//Your client ID from https://aps.autodesk.com/myapps/ here
-                    ClientSecret = ""//Your client ID from https://aps.autodesk.com/myapps/ here
-                }
-            };
-            // This will get the current WORKING directory (i.e. \bin\Debug)
+            //List<Forge> members = new List<Forge>
+            //{
+            //    new Forge
+            //    {
+            //        ClientId = "",//Your client ID from https://aps.autodesk.com/myapps/ here
+            //        ClientSecret = ""//Your client ID from https://aps.autodesk.com/myapps/ here
+            //    }
+            //};
+            //This will get the current WORKING directory(i.e. \bin\Debug)
             string currentUserDirectory = Environment.CurrentDirectory;
 
-            var forgeConfiguration = JsonConvert.DeserializeObject<ForgeConfiguration>(
-                File.ReadAllText(Path.Combine(Directory.GetParent(currentUserDirectory).Parent.FullName, @"appsettings.json")));
+            var forgeConfiguration = JsonConvert.DeserializeObject<ForgeConfiguration>(File.ReadAllText(Path.Combine(Directory.GetParent(currentUserDirectory).Parent.FullName, @"appsettings.json")));
+
+            //Forge forgeConfig = new Forge
+            //{
+            //    ClientId = "",//Your client ID from https://aps.autodesk.com/myapps/ here
+            //    ClientSecret = ""//Your client ID from https://aps.autodesk.com/myapps/ here
+            //};
 
             var oAuthHandler = OAuthHandler.Create(forgeConfiguration.Forge);
             string token = string.Empty;

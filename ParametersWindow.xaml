@@ -8,20 +8,22 @@
              Height="auto" MinHeight="300" Width="800" ResizeMode="CanResize" VerticalAlignment="Center" Title="Create New Parameters">
     <Border Padding="15">
         <StackPanel>
-            <Label Content="Add New Parameter" FontSize="30px" FontWeight="Bold" Margin="5 0" HorizontalAlignment="Center"></Label>
+            <Label Content="Create New Parameter" FontSize="30px" FontWeight="Bold" Margin="5 0" HorizontalAlignment="Center"></Label>
             <Separator></Separator>
-            <TextBox Name="ParameterName" Margin="10 10" Width="400" HorizontalAlignment="Left"></TextBox>
-            
+
             <StackPanel Orientation="Horizontal">
                 <Grid Width="800" Margin="10 10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="44"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="44"></ColumnDefinition>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                        <ColumnDefinition Width="240"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Content="Add New Parameter" Width="150" Grid.Column="0" Background="Black" Foreground="White" Cursor="Hand" Click="AddNewParameter"></Button>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock  Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" TextAlignment="Left">Name</TextBlock>
+                    <TextBox Name="ParameterName" Grid.Row="0" Grid.Column="1" Margin="10 10" Width="200" HorizontalAlignment="Left"></TextBox>
+                    <Button Content="Create New Parameter" Grid.Row="0" Grid.Column="3" Width="150" Background="Black" Foreground="White" Cursor="Hand" Click="AddNewParameter"></Button>
                     <!--<Button Content="Use Shared Parameter" Width="100" Grid.Column="2" Background="Black" Foreground="White" Cursor="Hand" Click="AddParameter"></Button>
                     <Button Content="Remove" Width="100" Grid.Column="4" Background="Black" Foreground="White" Cursor="Hand" Click="RemoveParameter"></Button>-->
 

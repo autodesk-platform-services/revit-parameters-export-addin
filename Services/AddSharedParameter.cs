@@ -30,7 +30,6 @@ namespace RevitParametersAddin.Services
                     ParameterDownloadOptions parameterDownloadOptions = ParameterUtils.DownloadParameterOptions(forgeTypeId);
                     ParameterUtils.DownloadParameter(doc, parameterDownloadOptions, forgeTypeId);
 
-
                     tx.Commit();
                 }
                 return true;

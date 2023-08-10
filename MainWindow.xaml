@@ -35,8 +35,8 @@
                                     Foreground="Black"  
                                     IsEditable="False"
                                     Text="Select Hub"
-                                    Margin="10 0"/>
-                    <ComboBox x:Name="CollectionList" SelectionChanged="ComboBox_CollectionChanged"
+                                    Margin="10 0" SelectionChanged="HubsList_SelectionChanged"/>
+                    <ComboBox x:Name="CollectionList" SelectionChanged="CollectionList_SelectionChanged"
                                     Height="35"  
                                     FontSize="15"   
                       Grid.Column="2"
@@ -65,16 +65,31 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Button Content="Create New Parameter" Width="150" Grid.Column="0" Background="Black" Foreground="White" Cursor="Hand" Click="CreateNewParameter"></Button>
-                    <Button Content="Add Shared Parameter" Width="150" Grid.Column="2" Background="Black" Foreground="White" Cursor="Hand" Click="AddSharedParameter"></Button>
+                    <Button Content="Download Parameter" Width="150" Grid.Column="2" Background="Black" Foreground="White" Cursor="Hand" Click="AddSharedParameter"></Button>
                     <Button Content="Export Parameter to File" Width="150" Grid.Column="4" Background="Black" Foreground="White" Cursor="Hand" Click="ExportSharedParamToFile"></Button>
                 </Grid>
                 <Separator></Separator>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Grid>
-                    <DataGrid x:Name="GridParameters" Grid.Row="2" Visibility="Visible" Width="800" Height="600" ScrollViewer.CanContentScroll="True" 
-      ScrollViewer.VerticalScrollBarVisibility="Auto"
-      ScrollViewer.HorizontalScrollBarVisibility="Auto">                        
+                    <DataGrid x:Name="GridParameters" Grid.Row="2" Visibility="Visible" Width="800" Height="600" 
+                              ScrollViewer.CanContentScroll="True" 
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto">        
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Select">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                            <DataGridTextColumn Header="TypeOrInstance" Binding="{Binding TypeOrInstance}" />
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+
+                        </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </StackPanel>

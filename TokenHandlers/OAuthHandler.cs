@@ -26,12 +26,12 @@ namespace RevitParametersAddin.TokenHandlers
         /// <summary>
         /// Defines the FORGE_CALLBACK.
         /// </summary>
-        private static string FORGE_CALLBACK = Environment.GetEnvironmentVariable("FORGE_CALLBACK") ?? "http://localhost:" + PORT + "/oauth";
+        private static string FORGE_CALLBACK = Environment.GetEnvironmentVariable("FORGE_CALLBACK") ?? "http://localhost:" + PORT + "/api/aps/callback/oauth";
 
         /// <summary>
         /// Defines the _scope.
         /// </summary>
-        private static Scope[] _scope = new Scope[] { Scope.DataRead, Scope.DataWrite };
+        private static Scope[] _scope = new Scope[] { Scope.DataRead, Scope.DataWrite, Scope.DataCreate };
 
         // Intialize the 3-legged oAuth 2.0 client.
         /// <summary>
@@ -174,7 +174,7 @@ namespace RevitParametersAddin.TokenHandlers
                 string oauthUrl = _threeLeggedApi.Authorize(config.ClientId, oAuthConstants.CODE, FORGE_CALLBACK, _scope);
                 var file = GetChromeExe();
                 var userData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "tmp_chrome");
-                var args = $"/incognito --chrome-frame --user-data-dir={userData} --window-size=540,540 --app={oauthUrl}";
+                var args = $"/incognito --chrome-frame --user-data-dir={userData} --window-size=540,540 --app={oauthUrl} --disable-application-cache";
 
                 ProcessStartInfo startInfo = new ProcessStartInfo(file)
                 {
