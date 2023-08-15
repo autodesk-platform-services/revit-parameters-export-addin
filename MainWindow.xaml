@@ -9,7 +9,7 @@
     
     <Border Padding="15">
         <StackPanel>
-            <Label Content="Parameters API Test" FontSize="30px" FontWeight="Bold" Margin="5 0" HorizontalAlignment="Center"></Label>
+            <Label Content="Revit Parameters API" FontSize="30px" FontWeight="Bold" Margin="5 0" HorizontalAlignment="Center"></Label>
             <Label x:Name="Label_Id" Margin="10 0"></Label>
             <Label x:Name="Label_Template" Margin="10 0"></Label>
             <Separator></Separator>
@@ -64,9 +64,7 @@
                         <ColumnDefinition Width="44"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Content="Create New Parameter" Width="150" Grid.Column="0" Background="Black" Foreground="White" Cursor="Hand" Click="CreateNewParameter"></Button>
-                    <Button Content="Download Parameter" Width="150" Grid.Column="2" Background="Black" Foreground="White" Cursor="Hand" Click="AddSharedParameter"></Button>
-                    <Button Content="Export Parameter to File" Width="150" Grid.Column="4" Background="Black" Foreground="White" Cursor="Hand" Click="ExportSharedParamToFile"></Button>
+                    <Button Content="Download Parameter" Width="150" Grid.Column="0" Background="Black" Foreground="White" Cursor="Hand" Click="AddSharedParameter"></Button>
                 </Grid>
                 <Separator></Separator>
             </StackPanel>

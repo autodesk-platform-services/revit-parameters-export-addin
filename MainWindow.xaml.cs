@@ -31,7 +31,6 @@ namespace RevitParametersAddin
         private readonly string _token;
         UIApplication _app;
 
-        static TokenHandler _tkHnd;
         static Parameters _param;
 
         public MainWindow(string threeleggedtoken, UIApplication app)
@@ -39,7 +38,6 @@ namespace RevitParametersAddin
             _token = threeleggedtoken;
             _app = app;
 
-            _tkHnd = new TokenHandler();
             _param = new Parameters();
 
             InitializeComponent();
