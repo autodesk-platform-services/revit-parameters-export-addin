@@ -115,17 +115,31 @@ namespace RevitParametersAddin.Services
                 {
                     var dynamicObject = JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
                     string metaType = null;
+                    
                     foreach (var field in dynamicObject.results)
                     {
+                        string category = null;
                         foreach (dynamic meta in field.metadata)
                         {
                             if (meta.id == "instanceTypeAssociation")
                             {
                                 metaType = meta.value;
                             }
+                            else if(meta.id == "categories")
+                            {
+                                List<string> contentResults = new List<string>();
+                                //StringBuilder sb = new StringBuilder();
+                                foreach (dynamic cat in meta.value)
+                                {
+                                    string catNames = cat.id;
+                                    //category = category + string.Join(", ", catNames.Replace("autodesk.revit.category.local:", "").Replace("autodesk.revit.category.family:", "").Replace("-1.0.0", ""));
+                                    contentResults.Add(catNames.Replace("autodesk.revit.category.local:", "").Replace("autodesk.revit.category.family:", "").Replace("-1.0.0", ""));
+                                }
+                                category = string.Join(", ", contentResults);
+                            }
                         }
                         if (!metaType.Equals("NONE")){
-                            parameters.Add(new Models.ParametersViewModel() { IsSelected = false, Name = Convert.ToString(field.name), TypeOrInstance = metaType, Id = Convert.ToString(field.id) });
+                            parameters.Add(new Models.ParametersViewModel() { IsSelected = false, Name = Convert.ToString(field.name), TypeOrInstance = metaType, Category = category, Id = Convert.ToString(field.id) });
                         }
                     }
                 }

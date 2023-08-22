@@ -9,24 +9,23 @@
     
     <Border Padding="15">
         <StackPanel>
-            <Label Content="Revit Parameters API" FontSize="30px" FontWeight="Bold" Margin="5 0" HorizontalAlignment="Center"></Label>
-            <Label x:Name="Label_Id" Margin="10 0"></Label>
+            <Label Content="ACC Parameters" FontSize="30px" FontWeight="Bold" Margin="5 0" HorizontalAlignment="Center"></Label>
+            
             <Label x:Name="Label_Template" Margin="10 0"></Label>
             <Separator></Separator>
             <StackPanel Orientation="Horizontal">
                 <Grid Width="800" Margin="10 10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="44"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="44"></ColumnDefinition>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <ComboBox x:Name="HubsList"
+                    <Label Grid.Column="0" Content="Hubs" FontSize="16px" FontWeight="Bold" Margin="5 0" Width="60"></Label>
+                    <ComboBox Grid.Column="1" x:Name="HubsList"
                                     Height="35"  
-                                    FontSize="15"  
-                          Grid.Column="0"
-                                    Width="300"
-                                    HorizontalAlignment="Left"   
+                                    FontSize="15"
                                     VerticalAlignment="Top"  
                                     BorderThickness="1"  
                                     VerticalContentAlignment="Center"  
@@ -36,13 +35,12 @@
                                     IsEditable="False"
                                     Text="Select Hub"
                                     Margin="10 0" SelectionChanged="HubsList_SelectionChanged"/>
+                    <Label Grid.Column="2" Content="Collections" FontSize="16px" FontWeight="Bold" Margin="5 0" HorizontalAlignment="Right"></Label>
                     <ComboBox x:Name="CollectionList" SelectionChanged="CollectionList_SelectionChanged"
                                     Height="35"  
-                                    FontSize="15"   
-                      Grid.Column="2"
-                                    Width="300"
-                                    HorizontalAlignment="Right"   
-                                    VerticalAlignment="Top"  
+                                    FontSize="15"
+                                    Grid.Column="3"
+                                    VerticalAlignment="Top"
                                     BorderThickness="1"  
                                     VerticalContentAlignment="Center"  
                                     Padding="15,0,0,0"   
@@ -70,10 +68,10 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Grid>
-                    <DataGrid x:Name="GridParameters" Grid.Row="2" Visibility="Visible" Width="800" Height="600" 
+                    <DataGrid x:Name="GridParameters" Grid.Row="2" Visibility="Visible" Width="800" Height="600" Loaded="OnLoaded"
                               ScrollViewer.CanContentScroll="True" 
                               ScrollViewer.VerticalScrollBarVisibility="Auto"
-                              ScrollViewer.HorizontalScrollBarVisibility="Auto">        
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Select">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -85,8 +83,8 @@
 
                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                             <DataGridTextColumn Header="TypeOrInstance" Binding="{Binding TypeOrInstance}" />
-                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="400" />
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="300"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

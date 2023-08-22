@@ -50,11 +50,19 @@ namespace RevitParametersAddin
                 this.HubsList.ItemsSource = items;
                 this.HubsList.DisplayMemberPath = "Item1";
                 this.HubsList.SelectedValuePath = "Item2";
-                this.HubsList.SelectedIndex = -1;
+                this.HubsList.SelectedIndex = 0;
             },TaskScheduler.FromCurrentSynchronizationContext());
 
         }
 
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            DataGrid dg = sender as DataGrid;
+            foreach (var column in dg.Columns)
+            {
+                column.Width = new DataGridLength(dg.ActualWidth / dg.Columns.Count, DataGridLengthUnitType.Pixel);
+            }
+        }
         public void GetACCParameters()
         {
             // Get selected Hub Id
@@ -94,7 +102,7 @@ namespace RevitParametersAddin
                             {
                                 // Set Parameters to ItemSource
                                 GridParameters.ItemsSource = paramst.Result as List<Models.ParametersViewModel>;
-                                //GridParameters.Columns[2].MaxWidth = 0;
+                                GridParameters.Columns[4].MaxWidth = 0;
                             }
                             else
                             {
@@ -145,6 +153,7 @@ namespace RevitParametersAddin
             {
                 // Set Parameters to ItemSource
                 GridParameters.ItemsSource = paramst as List<Models.ParametersViewModel>;
+                GridParameters.Columns[4].MaxWidth = 0;
             }
             else
             {

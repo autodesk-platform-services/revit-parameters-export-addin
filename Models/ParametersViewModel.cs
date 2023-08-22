@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,9 @@ namespace RevitParametersAddin.Models
         public bool IsSelected { get; set; }
         public string Name { get; set; }
         // Add other properties as required
+        [JsonProperty("Type / Instance")]
         public string TypeOrInstance { get; set; }
-
+        public string Category { get; set; }
         public string Id { get; set; }
     }
 }

@@ -159,6 +159,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="appsettings.json" />
     <None Include="Resources\5737041_32px_app_home_line_media_icon.png" />
     <None Include="Resources\icon.bmp" />
     <None Include="Resources\icon.png" />

@@ -209,7 +209,7 @@ namespace RevitParametersAddin.TokenHandlers
 
                 // The code is only to tell the user, he can close is web browser and return
                 // to this application.
-                var responseString = "<html><body>You can now close this window!</body></html>";
+                var responseString = "<html><body><h2>Login Success</h2><p>You can now close this window!</p></body></html>";
                 byte[] buffer = Encoding.UTF8.GetBytes(responseString);
                 var response = context.Response;
                 response.ContentType = "text/html";

@@ -13,8 +13,8 @@ namespace RevitParametersAddin
 {
     class App : IExternalApplication
     {
-        const string RIBBON_TAB = "Parameters API";
-        const string RIBBON_PANEL = "Params Panel Sample";
+        const string RIBBON_TAB = "ACC Parameters";
+        const string RIBBON_PANEL = "ACC Parameters Panel";
         public Result OnStartup(UIControlledApplication a)
         {
             try
@@ -43,13 +43,13 @@ namespace RevitParametersAddin
             ImageSource imgSrc = GetImageSource(img);
 
             PushButtonData btnData = new PushButtonData(
-                "My Parameters",
-                "Parameters API",
+                "ACC Parameters",
+                "ACC Parameters",
                 Assembly.GetExecutingAssembly().Location,
                 "RevitParametersAddin.Command"
                 )
             {
-                ToolTip = "Button to initiate Parameters API",
+                ToolTip = "Button to initiate ACC Parameters",
                 LongDescription = "Button to initiate Parameters API from ACC",
                 Image = imgSrc,
                 LargeImage = imgSrc
