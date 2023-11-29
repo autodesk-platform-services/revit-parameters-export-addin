@@ -24,11 +24,11 @@ or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac))
   - `ClientSecret` - your APS application client secret
 - Run the server: `dotnet run`
 
-> Currently the addin uses "http://localhost:3000/api/aps/callback/oauth as the callback and this can be changed to whatever port you wish by adding an environment variable "PORT".
+Currently the addin uses "http://localhost:3000/api/aps/callback/oauth as the callback and this can be changed to whatever port you wish by adding an environment variable "PORT".
 
-> On the tools bar, you will see the ACC Parameters tab which opens to reveal ACC Parameters button.
+On the tools bar, you will see the ACC Parameters tab which opens to reveal ACC Parameters button.
 
-> You might need to login to your aps account on the first time
+You might need to login to your aps account on the first time
 
 ![thumbnail](login_thumbnail.PNG)
 
