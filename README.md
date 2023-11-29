@@ -6,8 +6,6 @@
 
 [Revit](https://www.autodesk.com/products/revit/overview) Addin built to showcase [Parameters API](https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/)
 
-![thumbnail](login_thumbnail.PNG)
-
 ## Development
 
 ### Prerequisites
@@ -32,7 +30,7 @@ or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac))
 
 > You might need to login to your aps account on the first time
 
-![thumbnail](parameters_thumbail.png)
+![thumbnail](login_thumbnail.PNG)
 
 After login you will see your Hubs and Collections side by side
 
