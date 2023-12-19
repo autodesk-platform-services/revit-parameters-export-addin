@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using Autodesk.Revit.DB.Visual;
 using System.Text;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace RevitParametersAddin.Services
 {
@@ -13,19 +15,25 @@ namespace RevitParametersAddin.Services
     { 
         public async Task<IEnumerable<dynamic>> GetHubs(string token)
         {
-            //var hubs = new List<string>();
             var hubs = new List<Tuple<string, string>>();
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Get, "https://developer.api.autodesk.com/project/v1/hubs");
             request.Headers.Add("Authorization", "Bearer " + token);
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
+            //get the headers
+            HttpHeaders headers = response.Headers;
+            IEnumerable<string> values;
+            if (headers.TryGetValues("X-BB-SESSION", out values))
+            {
+                string session = values.First();
+            }
+
             var dynamicObject = JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
             var result = new Dictionary<string, string>();
             foreach (var field in dynamicObject.data)
             {
                 hubs.Add(new Tuple<string, string>(Convert.ToString(field.attributes.name), Convert.ToString(field.id)));
-                //result.Add(Convert.ToString(field.attributes.name), Convert.ToString(field.id));
             }
             return hubs;
         }
@@ -109,7 +117,6 @@ namespace RevitParametersAddin.Services
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Get, "https://developer.api.autodesk.com/parameters/v1/accounts/" + accId + "/groups/" + gpId + "/collections/" + colId + "/parameters");
                 request.Headers.Add("Authorization", "Bearer " + token);
-                request.Headers.Add("Cookie", "PF=QJwvb8Hfm5ValfxedgOkRw");
                 var response = await client.SendAsync(request);                
                 if (response.IsSuccessStatusCode)
                 {
@@ -128,11 +135,9 @@ namespace RevitParametersAddin.Services
                             else if(meta.id == "categories")
                             {
                                 List<string> contentResults = new List<string>();
-                                //StringBuilder sb = new StringBuilder();
                                 foreach (dynamic cat in meta.value)
                                 {
                                     string catNames = cat.id;
-                                    //category = category + string.Join(", ", catNames.Replace("autodesk.revit.category.local:", "").Replace("autodesk.revit.category.family:", "").Replace("-1.0.0", ""));
                                     contentResults.Add(catNames.Replace("autodesk.revit.category.local:", "").Replace("autodesk.revit.category.family:", "").Replace("-1.0.0", ""));
                                 }
                                 category = string.Join(", ", contentResults);
@@ -175,13 +180,9 @@ namespace RevitParametersAddin.Services
 
             string jsonStr = JsonConvert.SerializeObject(paramData);
             var content = new StringContent(jsonStr, null, "application/json");
-            request.Content = content;
-            
+            request.Content = content;            
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
-
-            //var response = await client.PostAsync("parameters/v1/accounts/" + accId + "/groups/" + gpId + "/collections/" + colId + "/parameters", content);
-
             if (response.IsSuccessStatusCode)
             {
                 return true;

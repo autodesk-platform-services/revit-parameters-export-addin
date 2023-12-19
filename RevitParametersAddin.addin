@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RevitAddIns>
-  <AddIn Type="Command">
-    <Text>Command RevitParametersAddin</Text>
-    <Description>Some description for RevitParametersAddin</Description>
-    <Assembly>RevitParametersAddin.dll</Assembly>
-    <FullClassName>RevitParametersAddin.Command</FullClassName>
-    <ClientId>17dd3a02-4239-4b98-80b3-f0c427ff75ce</ClientId>
-    <VendorId>com.typepad.thebuildingcoder</VendorId>
-    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
-  </AddIn>
-  <AddIn Type="Application">
-    <Name>Application RevitParametersAddin</Name>
-    <Assembly>RevitParametersAddin.dll</Assembly>
-    <FullClassName>RevitParametersAddin.App</FullClassName>
-    <ClientId>1a65a049-2f4e-446c-abe4-04d97ded236c</ClientId>
-    <VendorId>com.typepad.thebuildingcoder</VendorId>
-    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
-  </AddIn>
+	<AddIn Type="Command">
+		<Text>Command RevitParametersAddin</Text>
+		<Description>Revit Addin built to showcase Parameters API service</Description>
+		<Assembly>RevitParametersAddin.dll</Assembly>
+		<FullClassName>RevitParametersAddin.Command</FullClassName>
+		<ClientId>17dd3a02-4239-4b98-80b3-f0c427ff75ce</ClientId>
+		<VendorId>Moturi.Magati.George</VendorId>
+		<VendorDescription>Parameters Service, https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/</VendorDescription>
+	</AddIn>
+	<AddIn Type="Application">
+		<Name>Application RevitParametersAddin</Name>
+		<Assembly>RevitParametersAddin.dll</Assembly>
+		<FullClassName>RevitParametersAddin.App</FullClassName>
+		<ClientId>1a65a049-2f4e-446c-abe4-04d97ded236c</ClientId>
+		<VendorId>Moturi.Magati.George</VendorId>
+		<VendorDescription>Parameters Service, https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/</VendorDescription>
+	</AddIn>
 </RevitAddIns>

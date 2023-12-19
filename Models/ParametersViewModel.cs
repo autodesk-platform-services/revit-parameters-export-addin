@@ -11,7 +11,7 @@ namespace RevitParametersAddin.Models
     {
         public bool IsSelected { get; set; }
         public string Name { get; set; }
-        // Add other properties as required
+
         [JsonProperty("Type / Instance")]
         public string TypeOrInstance { get; set; }
         public string Category { get; set; }

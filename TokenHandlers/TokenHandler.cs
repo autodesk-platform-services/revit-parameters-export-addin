@@ -31,52 +31,53 @@ namespace RevitParametersAddin.TokenHandlers
     {
         public static string Login()
         {
-            //List<Forge> members = new List<Forge>
-            //{
-            //    new Forge
-            //    {
-            //        ClientId = "",//Your client ID from https://aps.autodesk.com/myapps/ here
-            //        ClientSecret = ""//Your client ID from https://aps.autodesk.com/myapps/ here
-            //    }
-            //};
-            //This will get the current WORKING directory(i.e. \bin\Debug)
-            string currentUserDirectory = Environment.CurrentDirectory;
-
-            var forgeConfiguration = JsonConvert.DeserializeObject<ForgeConfiguration>(File.ReadAllText(Path.Combine(Directory.GetParent(currentUserDirectory).Parent.FullName, @"appsettings.json")));
-
-            //Forge forgeConfig = new Forge
-            //{
-            //    ClientId = "",//Your client ID from https://aps.autodesk.com/myapps/ here
-            //    ClientSecret = ""//Your client ID from https://aps.autodesk.com/myapps/ here
-            //};
-
-            var oAuthHandler = OAuthHandler.Create(forgeConfiguration.Forge);
-            string token = string.Empty;
-            //We want to sleep the thread until we get 3L access_token.
-            //https://stackoverflow.com/questions/6306168/how-to-sleep-a-thread-until-callback-for-asynchronous-function-is-received
-            AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
-            oAuthHandler.Invoke3LeggedOAuth(async (bearer) =>
+            try
             {
-                // This is our application delegate. It is called upon success or failure
-                // after the process completed
-                if (bearer == null)
+                //This will get the current WORKING directory(i.e. \bin\Debug)
+                string currentUserDirectory = Environment.CurrentDirectory;
+                string token = string.Empty;
+                var forgeConfiguration = JsonConvert.DeserializeObject<ForgeConfiguration>(File.ReadAllText(Path.Combine(Directory.GetParent(currentUserDirectory).Parent.FullName, @"appsettings.json")));
+                if (string.IsNullOrEmpty(forgeConfiguration.Forge.ClientId) || string.IsNullOrEmpty(forgeConfiguration.Forge.ClientSecret))
                 {
-                    TaskDialog.Show("Login Response", "Sorry, Authentication failed! 3legged test");
-                    return;
+                    TaskDialog.Show("Login Error", "ClientId or ClientSecret is not set");
+                    throw new Exception("ClientId or ClientSecret is not set");
                 }
-                token = bearer.access_token;
-                // The call returned successfully and you got a valid access_token.                
-                DateTime dt = DateTime.Now;
-                dt.AddSeconds(double.Parse(bearer.expires_in.ToString()));
-                UserProfileApi profileApi = new UserProfileApi();
-                profileApi.Configuration.AccessToken = bearer.access_token;
-                DynamicJsonResponse userResponse = await profileApi.GetUserProfileAsync();
-                UserProfile user = userResponse.ToObject<UserProfile>();
-                TaskDialog.Show("Login Response", $"Hello {user.FirstName} !!, You are Logged in!");
-                stopWaitHandle.Set();
-            });
-            stopWaitHandle.WaitOne();
-            return token;
+                else
+                {
+                    var oAuthHandler = OAuthHandler.Create(forgeConfiguration.Forge);
+
+                    //We want to sleep the thread until we get 3L access_token.
+                    //https://stackoverflow.com/questions/6306168/how-to-sleep-a-thread-until-callback-for-asynchronous-function-is-received
+                    AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
+                    oAuthHandler.Invoke3LeggedOAuth(async (bearer) =>
+                    {
+                        // This is our application delegate. It is called upon success or failure
+                        // after the process completed
+                        if (bearer == null)
+                        {
+                            TaskDialog.Show("Login Response", "Sorry, Authentication failed! 3legged test");
+                            return;
+                        }
+                        token = bearer.access_token;
+                        // The call returned successfully and you got a valid access_token.                
+                        DateTime dt = DateTime.Now;
+                        dt.AddSeconds(double.Parse(bearer.expires_in.ToString()));
+                        UserProfileApi profileApi = new UserProfileApi();
+                        profileApi.Configuration.AccessToken = bearer.access_token;
+                        DynamicJsonResponse userResponse = await profileApi.GetUserProfileAsync();
+                        UserProfile user = userResponse.ToObject<UserProfile>();
+                        TaskDialog.Show("Login Response", $"Hello {user.FirstName} !!, You are Logged in!");
+                        stopWaitHandle.Set();
+                    });
+                    stopWaitHandle.WaitOne();                    
+                }
+                return token;
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Login Error", "Access Denied");
+                throw new Exception("Login Error");
+            }
         }
 
 

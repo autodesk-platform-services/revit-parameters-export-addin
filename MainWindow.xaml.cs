@@ -242,19 +242,6 @@ namespace RevitParametersAddin
 
                 var row_list = GetDataGridRows(GridParameters);
 
-                //string collectionName = "Default Collection";
-                //if (CollectionList.SelectedIndex > -1)
-                //{
-                //    var Id = CollectionList.SelectedItem.GetType().GetProperty("Item1");
-                //    collectionName = (String)(Id.GetValue(CollectionList.SelectedItem, null));
-                //}
-
-                // Allow the user to pick a Revit object
-                //Reference pickedRef = _app.ActiveUIDocument.Selection.PickObject(ObjectType.Element);
-
-                // Retrieve the Element based on the picked Reference
-                //Element ele = _app.ActiveUIDocument.Document.GetElement(pickedRef.ElementId);
-
                 foreach (DataGridRow single_row in row_list)
                 {
                     if (single_row.IsSelected == true)
@@ -263,7 +250,6 @@ namespace RevitParametersAddin
                         var ParameterId = single_row.Item.GetType().GetProperty("Id");
 
                         subWindow.AddProjParameter(_app, (String)(ParameterId.GetValue(single_row.Item, null)));
-                        //subWindow.AddProjectParameter(app, ele, collectionName, (String)(ParameterName.GetValue(single_row.Item, null)));
                     }
                 }
                 TaskDialog.Show("Revit", "Parameter Applied");
