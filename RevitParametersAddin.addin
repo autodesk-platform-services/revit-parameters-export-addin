@@ -6,7 +6,7 @@
 		<Assembly>RevitParametersAddin.dll</Assembly>
 		<FullClassName>RevitParametersAddin.Command</FullClassName>
 		<ClientId>17dd3a02-4239-4b98-80b3-f0c427ff75ce</ClientId>
-		<VendorId>Moturi.Magati.George</VendorId>
+		<VendorId>Autodesk</VendorId>
 		<VendorDescription>Parameters Service, https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/</VendorDescription>
 	</AddIn>
 	<AddIn Type="Application">
@@ -14,7 +14,7 @@
 		<Assembly>RevitParametersAddin.dll</Assembly>
 		<FullClassName>RevitParametersAddin.App</FullClassName>
 		<ClientId>1a65a049-2f4e-446c-abe4-04d97ded236c</ClientId>
-		<VendorId>Moturi.Magati.George</VendorId>
+		<VendorId>Autodesk</VendorId>
 		<VendorDescription>Parameters Service, https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/</VendorDescription>
 	</AddIn>
 </RevitAddIns>
