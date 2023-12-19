@@ -1,4 +1,4 @@
-# Revit Parameters Addin
+# Revit Addin with Parameters API
 
 ![platforms](https://img.shields.io/badge/platform-windows%20%7C%20osx%20%7C%20linux-lightgray.svg)
 [![.net](https://img.shields.io/badge/net-6.0-blue.svg)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
@@ -22,17 +22,19 @@ After selecting the active hubs and collection, you will now get the parameters.
 
 ![thumbnail](parameters_thumbail.png)
 
-##Demonstration
+
+## Demonstration
 
 After login you will see your Hubs and Collections side by side
 
-![thumbnail](parameters_thumbail.png)
+![demonstration](https://youtu.be/j6oEB_lrv9w)
 
 ## Setup
 
 ### Prerequisites
 
 - [APS credentials](https://forge.autodesk.com/en/docs/oauth/v2/tutorials/create-app)
+- [Visual Studio Community 2022](https://visualstudio.microsoft.com/vs/community/)
 - [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 - Terminal (for example, [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe)
 or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac))
