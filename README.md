@@ -27,7 +27,7 @@ After selecting the active hubs and collection, you will now get the parameters.
 
 After login you will see your Hubs and Collections side by side
 
-![demonstration](https://youtu.be/j6oEB_lrv9w)
+[![https://www.youtube.com/watch?v=j6oEB_lrv9w](parameters_thumbail.png)](https://www.youtube.com/watch?v=j6oEB_lrv9w "Revit Addin with Parameters API")
 
 ## Setup
 
