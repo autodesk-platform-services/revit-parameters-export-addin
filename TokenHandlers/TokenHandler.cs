@@ -117,10 +117,7 @@ namespace RevitParametersAddin.TokenHandlers
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var rep = JsonConvert.DeserializeObject<TokenModel>(await response.Content.ReadAsStringAsync());
-
-            var ssd = rep.access_token;
             return rep.access_token;
-
         }
     }
 }

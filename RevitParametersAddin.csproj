@@ -146,9 +146,6 @@
     </Compile>
     <Compile Include="Models\ParametersViewModel.cs" />
     <Compile Include="Models\TokenModel.cs" />
-    <Compile Include="ParametersWindow.xaml.cs">
-      <DependentUpon>ParametersWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Services\AddSharedParameter.cs" />
     <Compile Include="Services\Parameters.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -174,10 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ParametersWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
