@@ -1,11 +1,18 @@
 # Revit Addin with Parameters API
 
 ![platforms](https://img.shields.io/badge/platform-windows%20%7C%20osx%20%7C%20linux-lightgray.svg)
-[![.net](https://img.shields.io/badge/net-6.0-blue.svg)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
-[![.Parameters Service](https://img.shields.io/badge/Parameters%20-v1-green.svg)](https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/)
-[![Revit 2024](https://img.shields.io/badge/Revit-2024-lightgrey.svg)](http://autodesk.com/revit)
 [![Visual Studio Community 2022](https://img.shields.io/badge/Visual%20Studio-2022-green.svg)](https://visualstudio.microsoft.com/vs/community/)
-[![license](https://img.shields.io/:license-mit-green.svg)](https://opensource.org/licenses/MIT)
+
+[![OAuth2](https://img.shields.io/badge/OAuth2-v2-green.svg)](http://developer.autodesk.com/)
+[![.Parameters Service](https://img.shields.io/badge/Parameters%20-v1-green.svg)](https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/)
+
+![Windows](https://img.shields.io/badge/Plugins-Windows-lightgrey.svg)
+![.NET](https://img.shields.io/badge/.NET%20Framework-4.8-blue.svg)
+[![Revit 2024](https://img.shields.io/badge/Revit-2024-lightgrey.svg)](http://autodesk.com/revit)
+
+![Advanced](https://img.shields.io/badge/Level-Advanced-red.svg)
+[![MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
+
 
 ## Description
 
@@ -15,44 +22,47 @@ To achieve this, you need to login into your APS account to get a token. After g
 
 After selecting the active hubs and collection, you will now get the parameters.
 
+This project will add the parameters from the Parameters API into Revit project parameters.
+
 
 ## Thumbnail
 
-![thumbnail](login_thumbnail.PNG)
+![thumbnail](Resources/login_thumbnail.PNG)
 
-![thumbnail](parameters_thumbail.png)
+![thumbnail](Resources/parameters_thumbail.png)
 
 
 ## Demonstration
 
-After login you will see your Hubs and Collections side by side
-
-[![https://www.youtube.com/watch?v=j6oEB_lrv9w](parameters_thumbail.png)](https://www.youtube.com/watch?v=j6oEB_lrv9w "Revit Addin with Parameters API")
+[![https://www.youtube.com/watch?v=j6oEB_lrv9w](Resources/video-thumbnail.png)](https://www.youtube.com/watch?v=j6oEB_lrv9w "Revit Addin with Parameters API")
 
 ## Setup
 
 ### Prerequisites
 
 - [APS credentials](https://forge.autodesk.com/en/docs/oauth/v2/tutorials/create-app)
-- [Visual Studio Community 2022](https://visualstudio.microsoft.com/vs/community/)
-- [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
-- Terminal (for example, [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe)
-or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac))
+- [Visual Studio Community 2022](https://visualstudio.microsoft.com/vs/community/) or [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- Terminal (for example, [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe) 
+or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac)) if you don't have Visual Studio.
 
 ### Running locally
+If you have Visual Studio Community 2022 installed
+- Clone this repository
+- Build and run the project
 
+If you do not have it installed
 - Clone this repository
 - Install dependencies: `dotnet restore`
 - Setup environment variables in the appsettings.json File:
   - `ClientId` - your APS application client ID
   - `ClientSecret` - your APS application client secret
-- Run the server: `dotnet run`
+- Run the project: `dotnet run`
 
-Currently the addin uses `http://localhost:3000/api/aps/callback/oauth` as the callback and this can be changed to whatever port you wish by adding an environment variable "PORT".
+Currently the addin uses `http://localhost:3000/api/aps/callback/oauth` as the callback. This callback should also be added at your application Callback URL in the General Settings section of your [APS Application](https://aps.autodesk.com/myapps/)). The port can be changed to whatever port you wish by adding an environment variable "PORT".
 
 On the tools bar, you will see the ACC Parameters tab which opens to reveal ACC Parameters button.
 
-You might need to login to your aps account on the first time
+You might need to login to your aps account on the first time.
 
 
 ## Tips & Tricks
