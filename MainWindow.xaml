@@ -69,6 +69,9 @@
             <StackPanel Orientation="Horizontal">
                 <Grid>
                     <DataGrid x:Name="GridParameters" Grid.Row="2" Visibility="Visible" Width="800" Height="600" Loaded="OnLoaded"
+                              CanUserAddRows="False" 
+                              CanUserDeleteRows="False" 
+                              SelectionUnit="FullRow"
                               ScrollViewer.CanContentScroll="True" 
                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                               ScrollViewer.HorizontalScrollBarVisibility="Auto">

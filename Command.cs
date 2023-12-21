@@ -29,6 +29,7 @@ namespace RevitParametersAddin
             }
             catch(Exception ex)
             {
+                System.Console.WriteLine(ex.ToString());
                 return Result.Failed;
             }
         }

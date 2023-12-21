@@ -30,7 +30,8 @@ namespace RevitParametersAddin.Services
             }
             catch (Exception ex)
             {
-                TaskDialog.Show("Error", ex.Message);
+                System.Console.WriteLine(ex.ToString());
+                //TaskDialog.Show("Error", ex.Message);
                 return false;
             }
         }

@@ -4,10 +4,6 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using Autodesk.Revit.DB.Visual;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using System.Linq;
 
 namespace RevitParametersAddin.Services
 {
@@ -17,23 +13,17 @@ namespace RevitParametersAddin.Services
         {
             var hubs = new List<Tuple<string, string>>();
             var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Get, "https://developer.api.autodesk.com/project/v1/hubs");
+            //Filter by extension type. hubs:autodesk.bim360:Account (BIM 360 Docs accounts)
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://developer.api.autodesk.com/project/v1/hubs?filter[extension.type]=hubs:autodesk.bim360:Account");
             request.Headers.Add("Authorization", "Bearer " + token);
             var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            //get the headers
-            HttpHeaders headers = response.Headers;
-            IEnumerable<string> values;
-            if (headers.TryGetValues("X-BB-SESSION", out values))
+            if (response.IsSuccessStatusCode)
             {
-                string session = values.First();
-            }
-
-            var dynamicObject = JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
-            var result = new Dictionary<string, string>();
-            foreach (var field in dynamicObject.data)
-            {
-                hubs.Add(new Tuple<string, string>(Convert.ToString(field.attributes.name), Convert.ToString(field.id)));
+                var dynamicObject = JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
+                foreach (var field in dynamicObject.data)
+                {
+                    hubs.Add(new Tuple<string, string>(Convert.ToString(field.attributes.name), Convert.ToString(field.id)));
+                }
             }
             return hubs;
         }
@@ -42,15 +32,16 @@ namespace RevitParametersAddin.Services
         {
             var accounts = new List<Tuple<string, string>>();
             var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Get, "https://developer.api.autodesk.com//project/v1/hubs?filter[name]-contains=" + hubname);
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://developer.api.autodesk.com/project/v1/hubs?filter[name]-contains=" + hubname);
             request.Headers.Add("Authorization", "Bearer " + token);
             var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            var dynamicObject = JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
-            var result = new Dictionary<string, string>();
-            foreach (var field in dynamicObject.data)
+            if (response.IsSuccessStatusCode)
             {
-                accounts.Add(new Tuple<string, string>(Convert.ToString(field.attributes.name), Convert.ToString(field.id)));
+                var dynamicObject = JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
+                foreach (var field in dynamicObject.data)
+                {
+                    accounts.Add(new Tuple<string, string>(Convert.ToString(field.attributes.name), Convert.ToString(field.id)));
+                }
             }
             return accounts;
         }

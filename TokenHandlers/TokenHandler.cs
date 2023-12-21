@@ -75,6 +75,7 @@ namespace RevitParametersAddin.TokenHandlers
             }
             catch (Exception ex)
             {
+                System.Console.WriteLine(ex.ToString());
                 TaskDialog.Show("Login Error", "Access Denied");
                 throw new Exception("Login Error");
             }

@@ -138,17 +138,17 @@ namespace RevitParametersAddin
             //Get the ID of the collection
             var Id = CollectionList.SelectedItem.GetType().GetProperty("Item2");
             var collId = (String)(Id.GetValue(CollectionList.SelectedItem, null));
-
+            GridParameters.CanUserAddRows = false;
+            //initialize the datagrid table and clear any records            
+            GridParameters.Columns.Clear();
+            GridParameters.ItemsSource = null;
+            //Initialize empty row for the datagrid table
+            var _datagrid = new List<dynamic>();
+            _datagrid.Add(new Tuple<string>("Loading parameters..."));
+            GridParameters.ItemsSource = _datagrid.ToList();
+            
             //Get all the Parameters            
             var paramst = await param.GetParameters(hubId, groupId, collId, _token);
-
-            //clear Previous records
-            GridParameters.Columns.Clear();
-            GridParameters.ItemsSource = null;
-
-            GridParameters.Columns.Clear();
-            GridParameters.ItemsSource = null;
-
             if (paramst.Count > 0)
             {
                 // Set Parameters to ItemSource
@@ -157,9 +157,11 @@ namespace RevitParametersAddin
             }
             else
             {
-                var empty = new List<dynamic>();
-                empty.Add(new Tuple<string>("Oooops! No Data was found in the selection that you made. Please change the Hub"));
-                GridParameters.ItemsSource = empty.ToList();
+                _datagrid.Clear();
+
+                //If no data was found in the collection
+                _datagrid.Add(new Tuple<string>("Oooops! No Data was found in the selection that you made. Please change the Collection or Hub"));
+                GridParameters.ItemsSource = _datagrid.ToList();
             }
         }
         private void AddSharedParameter(object sender, RoutedEventArgs e)
@@ -168,20 +170,21 @@ namespace RevitParametersAddin
             try
             {
                 AddSharedParameter subWindow = new AddSharedParameter();
-
                 var row_list = GetDataGridRows(GridParameters);
-
+                int countAddedParameters = 0;
                 foreach (DataGridRow single_row in row_list)
                 {
                     if (single_row.IsSelected == true)
                     {
                         var ParameterName = single_row.Item.GetType().GetProperty("Name");
                         var ParameterId = single_row.Item.GetType().GetProperty("Id");
-
-                        subWindow.AddProjParameter(_app, (String)(ParameterId.GetValue(single_row.Item, null)));
+                        if(subWindow.AddProjParameter(_app, (String)(ParameterId.GetValue(single_row.Item, null))))
+                        {
+                            countAddedParameters = countAddedParameters + 1;
+                        }
                     }
                 }
-                TaskDialog.Show("Revit", "Parameter Applied");
+                TaskDialog.Show("Revit", countAddedParameters + " Parameter(s) Applied");
                 this.ShowDialog();
             }
             catch(Exception ex) {
