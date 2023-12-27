@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,10 +34,30 @@ namespace RevitParametersAddin.TokenHandlers
         {
             try
             {
-                //This will get the current WORKING directory(i.e. \bin\Debug)
-                string currentUserDirectory = Environment.CurrentDirectory;
                 string token = string.Empty;
-                var forgeConfiguration = JsonConvert.DeserializeObject<ForgeConfiguration>(File.ReadAllText(Path.Combine(Directory.GetParent(currentUserDirectory).Parent.FullName, @"appsettings.json")));
+                ForgeConfiguration forgeConfiguration = null;
+
+                // Retrieve the embedded resource stream
+                // Note that Build Action for appsettings.json should be Embedded Resource
+                Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("RevitParametersAddin.appsettings.json");
+                if (stream == null)
+                {
+                    TaskDialog.Show("Login Error", "Could not find settings resource");
+                    throw new Exception("Could not find settings resource");
+                }
+                // Read the JSON content
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string json = reader.ReadToEnd();
+
+                    // Deserialize the JSON into a strongly typed object
+                    JsonSerializerOptions options = new JsonSerializerOptions();
+                    options.PropertyNameCaseInsensitive = true; // Allow case-insensitive property names
+                    forgeConfiguration = System.Text.Json.JsonSerializer.Deserialize<ForgeConfiguration>(json, options);
+                    //close StreamReader
+                    reader.Close();
+                }
+                //Chck if the credentials were set
                 if (string.IsNullOrEmpty(forgeConfiguration.Forge.ClientId) || string.IsNullOrEmpty(forgeConfiguration.Forge.ClientSecret))
                 {
                     TaskDialog.Show("Login Error", "ClientId or ClientSecret is not set");
@@ -45,7 +66,6 @@ namespace RevitParametersAddin.TokenHandlers
                 else
                 {
                     var oAuthHandler = OAuthHandler.Create(forgeConfiguration.Forge);
-
                     //We want to sleep the thread until we get 3L access_token.
                     //https://stackoverflow.com/questions/6306168/how-to-sleep-a-thread-until-callback-for-asynchronous-function-is-received
                     AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
@@ -78,19 +98,6 @@ namespace RevitParametersAddin.TokenHandlers
                 System.Console.WriteLine(ex.ToString());
                 TaskDialog.Show("Login Error", "Access Denied");
                 throw new Exception("Login Error");
-            }
-        }
-
-
-
-        public static string GetAssemblyDirectory
-        {
-            get
-            {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
             }
         }
 
