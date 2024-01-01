@@ -13,19 +13,19 @@
 [![MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 
-## Description
+# Description
 
 This sample demonstrates the following features:
 - List parameters from ACC Account using [Parameters API](https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/),
 - Add selected parameters from ACC Account to Revit project using [Revit API](https://help.autodesk.com/view/RVT/2024/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Basic_Interaction_with_Revit_Elements_Parameters_Shared_Parameters_html). 
 
 
-## Thumbnail
+# Thumbnail
 
 ![thumbnail](Resources/parameters_thumbail.png)
 
 
-## Demonstration
+# Demonstration
 - Start Revit, Open a Revit project, goto `ACC Parameters` tab and click `ACC Parameters` button, or goto `Add-Ins` tab -> `External Tools` -> select the command `Command RevitParametersAddin`, login with your Autodesk credential, the `Parameters View Mananger` dialog will pop up.
 - Select ACC Hub, select collection, all the Revit compatible parameters will be listed.
 - Select the parameters, click `download parameter` button. 
@@ -35,16 +35,16 @@ For the details, please watch the following video:
 
 - [![https://www.youtube.com/watch?v=j6oEB_lrv9w](Resources/video-thumbnail.png)](https://www.youtube.com/watch?v=j6oEB_lrv9w "Revit Addin with Parameters API")
 
-## Setup
+# Setup
 
-### Prerequisites
+## Prerequisites
 
 - [APS credentials](https://forge.autodesk.com/en/docs/oauth/v2/tutorials/create-app)
 - [Visual Studio Community 2022](https://visualstudio.microsoft.com/vs/community/) or [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 - Terminal (for example, [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe) 
 or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac)) if you don't have Visual Studio.
 
-### Running locally
+## Running locally
 If you have Visual Studio Community 2022 installed
 - Clone this repository
 - Build and run the project
@@ -61,8 +61,8 @@ Currently the addin uses `http://localhost:3000/api/aps/callback/oauth` as the c
 
 Follow the `Demonstration` section above to play with addin.
 
-## Further Reading
-### Tips & Tricks
+# Further Reading
+## Tips & Tricks
 - If you run the application, and meet the exception of assembly `Autodesk.Forge` cannot be loaded, you can solve this by copying the assembly (together with dependencies) to the roaming folder of your Revit plugin.
 
 - Before running the plugin, since we need to communicate with 3 legged token callback over HTTP and HTTPS. At a minimum, you want to configure a URL registration and add a Firewall exception for the URL your service will be using. You can configure these settings with the Netsh.exe tool as follow. 
@@ -83,9 +83,9 @@ For more information, see the documentation:
 - [Parameters API Documentation](https://aps.autodesk.com/autodesk-parameters-api-cover-page)
 - [Revit API: Shared Parameters](https://help.autodesk.com/view/RVT/2024/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Basic_Interaction_with_Revit_Elements_Parameters_Shared_Parameters_html)
 
-## License
+# License
 
 This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [LICENSE](LICENSE) file for full details.
 
-## Written by
+# Written by
 [Moturi Magati George](https://www.linkedin.com/in/moturigeorge/), [Autodesk Partner Development](http://aps.autodesk.com)
