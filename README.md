@@ -63,19 +63,21 @@ If you do not have it installed
   - `ClientSecret` - your APS application client secret
 - Run the project: `dotnet run`
 
-Currently the addin uses `http://localhost:3000/api/aps/callback/oauth` as the callback. This callback should also be added at your application Callback URL in the General Settings section of your [APS Application](https://aps.autodesk.com/myapps/)). The port can be changed to whatever port you wish by adding an environment variable "PORT".
+Currently the addin uses `http://localhost:3000/api/aps/callback/oauth` as the callback. This callback should also be added at your application Callback URL in the General Settings section of your [APS Application](https://aps.autodesk.com/myapps/). The port can be changed to whatever port you wish by adding an environment variable "PORT".
 
 Follow the `Demonstration` section above to play with addin.
 
 # Further Reading
-## Tips & Tricks
-- If you run the application, and meet the exception of assembly `Autodesk.Forge` cannot be loaded, you can solve this by copying the assembly (together with dependencies) to the roaming folder of your Revit plugin.
 
-- Before running the plugin, since we need to communicate with 3 legged token callback over HTTP and HTTPS. At a minimum, you want to configure a URL registration and add a Firewall exception for the URL your service will be using. You can configure these settings with the Netsh.exe tool as follow. 
+## Tips & Tricks
+
+- If you run the application and encounter an exception saying assembly `Autodesk.Forge` cannot be loaded, you can solve this by copying the assembly (together with dependencies) to the roaming folder of your Revit plugin.
+
+- Before running the plugin, we need be able to communicate with 3 legged token callback over HTTP and HTTPS. At a minimum, you want to configure a URL registration and add a Firewall exception for the URL your service will be using. You can configure these settings with the Netsh.exe tool as follows:
 ```powershell
 netsh http add urlacl url=http://+:3000/api/aps/callback/oauth/ user=DOMAIN\user
 ```
-- Please refer [Configuring HTTP and HTTPS](https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/configuring-http-and-https?redirectedfrom=MSDN) for details.
+- Please refer to [Configuring HTTP and HTTPS](https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/configuring-http-and-https?redirectedfrom=MSDN) for details.
 
 ## Troubleshooting
 
@@ -94,4 +96,5 @@ For more information, see the documentation:
 This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [LICENSE](LICENSE) file for full details.
 
 # Written by
+
 [Moturi Magati George](https://www.linkedin.com/in/moturigeorge/), [Autodesk Partner Development](http://aps.autodesk.com)
