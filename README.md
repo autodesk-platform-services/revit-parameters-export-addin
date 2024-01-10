@@ -16,8 +16,8 @@
 # Description
 
 This sample demonstrates the following features:
-- List parameters from ACC Account using [Parameters API](https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/),
-- Add selected parameters from ACC Account to Revit project using [Revit API](https://help.autodesk.com/view/RVT/2024/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Basic_Interaction_with_Revit_Elements_Parameters_Shared_Parameters_html). 
+- List parameters from ACC Account using [Parameters API](https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/)
+- Add selected parameters from ACC Account to Revit project using [Revit API](https://help.autodesk.com/view/RVT/2024/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Basic_Interaction_with_Revit_Elements_Parameters_Shared_Parameters_html)
 
 
 # Thumbnail
@@ -26,12 +26,15 @@ This sample demonstrates the following features:
 
 
 # Demonstration
-- Start Revit, Open a Revit project, goto `ACC Parameters` tab and click `ACC Parameters` button, or goto `Add-Ins` tab -> `External Tools` -> select the command `Command RevitParametersAddin`, login with your Autodesk credential, the `Parameters View Mananger` dialog will pop up.
-- Select ACC Hub, select collection, all the Revit compatible parameters will be listed.
-- Select the parameters, click `download parameter` button. 
-- Goto `Manage` Tab, and click `Project Parameters` button, you will see the new parameters are added into the project parameters list.
 
-For the details, please watch the following video:
+- Start Revit, Open a Revit project, goto `ACC Parameters` tab and click `ACC Parameters` button, or goto `Add-Ins` tab > `External Tools` > select the command `Command RevitParametersAddin`, login with your Autodesk credential
+- The `Parameters View Mananger` dialog pops up
+- Select ACC Hub, select collection, all the Revit compatible parameters will be listed
+- Select the parameters, click `download parameter` button
+- Goto `Manage` Tab, and click `Project Parameters` button
+- The new parameters are added to the project parameters list
+
+For details, please watch the following video:
 
 - [![https://www.youtube.com/watch?v=j6oEB_lrv9w](Resources/video-thumbnail.png)](https://www.youtube.com/watch?v=j6oEB_lrv9w "Revit Addin with Parameters API")
 
@@ -42,14 +45,17 @@ For the details, please watch the following video:
 - [APS credentials](https://forge.autodesk.com/en/docs/oauth/v2/tutorials/create-app)
 - [Visual Studio Community 2022](https://visualstudio.microsoft.com/vs/community/) or [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 - Terminal (for example, [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe) 
-or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac)) if you don't have Visual Studio.
+or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac)) if you don't have Visual Studio
 
 ## Running locally
+
 If you have Visual Studio Community 2022 installed
+
 - Clone this repository
 - Build and run the project
 
 If you do not have it installed
+
 - Clone this repository
 - Install dependencies: `dotnet restore`
 - Setup environment variables in the appsettings.json File:
