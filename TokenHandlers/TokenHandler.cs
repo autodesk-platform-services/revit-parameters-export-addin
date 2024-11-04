@@ -1,17 +1,12 @@
-﻿
-using Autodesk.Forge;
-using Autodesk.Forge.Model;
+﻿using Autodesk.Authentication;
+using Autodesk.Authentication.Model;
 using Autodesk.Revit.UI;
 using Newtonsoft.Json;
 using RevitParametersAddin.Models;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RevitParametersAddin.TokenHandlers
 {
@@ -26,7 +21,7 @@ namespace RevitParametersAddin.TokenHandlers
         public Forge Forge { get; set; }
     }
 
-    
+
 
     public class TokenHandler
     {
@@ -78,18 +73,18 @@ namespace RevitParametersAddin.TokenHandlers
                             TaskDialog.Show("Login Response", "Sorry, Authentication failed! 3legged test");
                             return;
                         }
-                        token = bearer.access_token;
+
+                        token = bearer.AccessToken;
                         // The call returned successfully and you got a valid access_token.                
                         DateTime dt = DateTime.Now;
-                        dt.AddSeconds(double.Parse(bearer.expires_in.ToString()));
-                        UserProfileApi profileApi = new UserProfileApi();
-                        profileApi.Configuration.AccessToken = bearer.access_token;
-                        DynamicJsonResponse userResponse = await profileApi.GetUserProfileAsync();
-                        UserProfile user = userResponse.ToObject<UserProfile>();
-                        TaskDialog.Show("Login Response", $"Hello {user.FirstName} !!, You are Logged in!");
+                        dt.AddSeconds(double.Parse(bearer.ExpiresIn.ToString()));
+                        // Ensure authenticationClient is initialized
+                        var authenticationClient = new AuthenticationClient();
+                        UserInfo profileApi = await authenticationClient.GetUserInfoAsync(token);
+                        TaskDialog.Show("Login Response", $"Hello {profileApi.Name} !!, You are Logged in!");
                         stopWaitHandle.Set();
                     });
-                    stopWaitHandle.WaitOne();                    
+                    stopWaitHandle.WaitOne();
                 }
                 return token;
             }

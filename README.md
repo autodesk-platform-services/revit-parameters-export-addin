@@ -2,8 +2,8 @@
 
 ![platforms](https://img.shields.io/badge/platform-windows-lightgray.svg)
 [![Visual Studio Community 2022](https://img.shields.io/badge/Visual%20Studio-2022-green.svg)](https://visualstudio.microsoft.com/vs/community/)
-![.NET](https://img.shields.io/badge/.NET%20Framework-4.8-blue.svg)
-[![Revit 2024](https://img.shields.io/badge/Revit-2024-lightgrey.svg)](http://autodesk.com/revit)
+![.NET](https://img.shields.io/badge/.NET-8.0-blue.svg)
+[![Revit 2025](https://img.shields.io/badge/Revit-2025-lightgrey.svg)](http://autodesk.com/revit)
 
 [![OAuth2](https://img.shields.io/badge/OAuth2-v2-green.svg)](http://developer.autodesk.com/)
 [![.Parameters Service](https://img.shields.io/badge/Parameters%20-v1-green.svg)](https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/)
@@ -17,7 +17,7 @@
 
 This sample demonstrates the following features:
 - List parameters from ACC Account using [Parameters API](https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/)
-- Add selected parameters from ACC Account to Revit project using [Revit API](https://help.autodesk.com/view/RVT/2024/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Basic_Interaction_with_Revit_Elements_Parameters_Shared_Parameters_html)
+- Add selected parameters from ACC Account to Revit project using [Revit API](https://help.autodesk.com/view/RVT/2025/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Basic_Interaction_with_Revit_Elements_Parameters_Shared_Parameters_html)
 
 
 # Thumbnail
@@ -43,7 +43,7 @@ For details, please watch the following video:
 ## Prerequisites
 
 - [APS credentials](https://forge.autodesk.com/en/docs/oauth/v2/tutorials/create-app)
-- [Visual Studio Community 2022](https://visualstudio.microsoft.com/vs/community/) or [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- [Visual Studio Community 2022](https://visualstudio.microsoft.com/vs/community/) or [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - Terminal (for example, [Windows Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe) 
 or [macOS Terminal](https://support.apple.com/guide/terminal/welcome/mac)) if you don't have Visual Studio
 
@@ -89,7 +89,7 @@ netsh http add urlacl url=http://+:3000/api/aps/callback/oauth/ user=DOMAIN\user
 For more information, see the documentation:
 
 - [Parameters API Documentation](https://aps.autodesk.com/autodesk-parameters-api-cover-page)
-- [Revit API: Shared Parameters](https://help.autodesk.com/view/RVT/2024/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Basic_Interaction_with_Revit_Elements_Parameters_Shared_Parameters_html)
+- [Revit API: Shared Parameters](https://help.autodesk.com/view/RVT/2025/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Basic_Interaction_with_Revit_Elements_Parameters_Shared_Parameters_html)
 
 # License
 

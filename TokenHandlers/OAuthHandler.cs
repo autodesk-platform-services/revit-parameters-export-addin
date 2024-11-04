@@ -1,13 +1,10 @@
-﻿using Autodesk.Forge;
-using System;
-using System.Collections.Generic;
+﻿using Autodesk.Authentication;
+using Autodesk.Authentication.Model;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RevitParametersAddin.TokenHandlers
 {
@@ -18,6 +15,9 @@ namespace RevitParametersAddin.TokenHandlers
     {
         // Initialize the oAuth 2.0 client configuration fron enviroment variables
         // you can also hardcode them in the code if you want in the placeholders below
+
+        private static AuthenticationClient authenticationClient = new AuthenticationClient();
+
         /// <summary>
         /// Defines the PORT.
         /// </summary>
@@ -29,15 +29,15 @@ namespace RevitParametersAddin.TokenHandlers
         private static string FORGE_CALLBACK = Environment.GetEnvironmentVariable("FORGE_CALLBACK") ?? "http://localhost:" + PORT + "/api/aps/callback/oauth";
 
         /// <summary>
-        /// Defines the _scope.
+        /// Defines the _Scopes.
         /// </summary>
-        private static Scope[] _scope = new Scope[] { Scope.DataRead, Scope.DataWrite, Scope.DataCreate };
+        private static List<Scopes> _Scopes = new List<Scopes>() { Scopes.AccountRead, Scopes.DataCreate, Scopes.DataWrite, Scopes.DataRead, Scopes.BucketRead };
 
         // Intialize the 3-legged oAuth 2.0 client.
         /// <summary>
         /// Defines the _threeLeggedApi.
         /// </summary>
-        private static ThreeLeggedApi _threeLeggedApi = new ThreeLeggedApi();
+        private static ThreeLeggedToken _threeLeggedApi = new ThreeLeggedToken();
 
         // Declare a local web listener to wait for the oAuth callback on the local machine.
         // Please read this article to configure your local machine properly
@@ -53,7 +53,7 @@ namespace RevitParametersAddin.TokenHandlers
         /// The AccessTokenDelegate.
         /// </summary>
         /// <param name="bearer">The bearer<see cref="dynamic"/>.</param>
-        public delegate void AccessTokenDelegate(dynamic bearer);
+        public delegate void AccessTokenDelegate(ThreeLeggedToken bearer);
 
         /// <summary>
         /// Defines the config.
@@ -88,15 +88,13 @@ namespace RevitParametersAddin.TokenHandlers
         /// <summary>
         /// Get the access token from Autodesk.
         /// </summary>
-        /// <param name="scopes">The scopes<see cref="Scope[]"/>.</param>
+        /// <param name="scopes">The scopes<see cref="Scopes[]"/>.</param>
         /// <returns>The <see cref="Task{dynamic}"/>.</returns>
-        static async Task<dynamic> Get2LeggedTokenAsync(Scope[] scopes)
+        static async Task<dynamic> Get2LeggedTokenAsync(List<Scopes> scopes)
         {
-            TwoLeggedApi oauth = new TwoLeggedApi();
             string grantType = "client_credentials";
-            dynamic bearer = await oauth.AuthenticateAsync(config.ClientId,
+            dynamic bearer = await authenticationClient.GetTwoLeggedTokenAsync(config.ClientId,
               config.ClientSecret,
-              grantType,
               scopes);
             return bearer;
         }
@@ -109,13 +107,13 @@ namespace RevitParametersAddin.TokenHandlers
         {
             if (InternalToken == null || InternalToken.ExpiresAt < DateTime.UtcNow)
             {
-                InternalToken = await Get2LeggedTokenAsync(new Scope[] { Scope.BucketCreate,
-                                                                        Scope.BucketRead,
-                                                                        Scope.BucketDelete,
-                                                                        Scope.DataRead,
-                                                                        Scope.DataWrite,
-                                                                        Scope.DataCreate,
-                                                                        Scope.CodeAll });
+                InternalToken = await Get2LeggedTokenAsync(new List<Scopes>() { Scopes.BucketCreate,
+                                                                        Scopes.BucketRead,
+                                                                        Scopes.BucketDelete,
+                                                                        Scopes.DataRead,
+                                                                        Scopes.DataWrite,
+                                                                        Scopes.DataCreate,
+                                                                        Scopes.CodeAll });
                 InternalToken.ExpiresAt = DateTime.UtcNow.AddSeconds(InternalToken.expires_in);
             }
             return InternalToken;
@@ -148,7 +146,7 @@ namespace RevitParametersAddin.TokenHandlers
                 {
                     prefixes.Add(programFilesDirFromReg);
                 }
-                   
+
             }
 
             prefixes.Add(programFilesx86);
@@ -170,18 +168,18 @@ namespace RevitParametersAddin.TokenHandlers
             {
                 _httpListener.Start();
                 IAsyncResult result = _httpListener.BeginGetContext(_3leggedAsyncWaitForCode, cb);
-                // Generate a URL page that asks for permissions for the specified scopes, and call our default web browser.
-                string oauthUrl = _threeLeggedApi.Authorize(config.ClientId, oAuthConstants.CODE, FORGE_CALLBACK, _scope);
+                // Generate a URL page that asks for permissions for the specified Scopess, and call our default web browser.
+                string oauthUrl = authenticationClient.Authorize(config.ClientId, ResponseType.Code, redirectUri: FORGE_CALLBACK.ToString(), scopes: _Scopes);
                 var file = GetChromeExe();
                 var userData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "tmp_chrome");
                 var args = $"/incognito --chrome-frame --user-data-dir={userData} --window-size=540,540 --app={oauthUrl} --disable-application-cache";
 
                 ProcessStartInfo startInfo = new ProcessStartInfo(file)
                 {
-                    WindowStyle = ProcessWindowStyle.Minimized,                
+                    WindowStyle = ProcessWindowStyle.Minimized,
                     Arguments = args,
                 };
-                var p = Process.Start(startInfo);                
+                var p = Process.Start(startInfo);
             }
             catch (HttpListenerException ex)
             {
@@ -189,6 +187,7 @@ namespace RevitParametersAddin.TokenHandlers
                 throw ex;
             }
         }
+
 
         /// <summary>
         /// The _3leggedAsyncWaitForCode.
@@ -205,7 +204,7 @@ namespace RevitParametersAddin.TokenHandlers
 
                 //HttpListener listener =(HttpListener)result.AsyncState ;
                 var context = _httpListener.EndGetContext(ar);
-                string code = context.Request.QueryString[oAuthConstants.CODE];
+                string code = context.Request.QueryString["code"];
 
                 // The code is only to tell the user, he can close is web browser and return
                 // to this application.
@@ -223,13 +222,9 @@ namespace RevitParametersAddin.TokenHandlers
                     // Call the asynchronous version of the 3-legged client with HTTP information
                     // HTTP information will help you to verify if the call was successful as well
                     // as read the HTTP transaction headers.
-                    Autodesk.Forge.Client.ApiResponse<dynamic> bearer = await _threeLeggedApi.GettokenAsyncWithHttpInfo(config.ClientId,
-                                                                                                                        config.ClientSecret,
-                                                                                                                        oAuthConstants.AUTHORIZATION_CODE,
-                                                                                                                        code, FORGE_CALLBACK);
+                    var bearer = await authenticationClient.GetThreeLeggedTokenAsync(config.ClientId, code, FORGE_CALLBACK, config.ClientSecret);
 
-
-                    ((AccessTokenDelegate)ar.AsyncState)?.Invoke(bearer.Data);
+                    ((AccessTokenDelegate)ar.AsyncState)?.Invoke(bearer);
                 }
                 else
                 {
