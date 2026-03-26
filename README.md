@@ -16,8 +16,8 @@
 # Description
 
 This sample demonstrates the following features:
-- List parameters from ACC Account using [Parameters API](https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/)
-- Add selected parameters from ACC Account to Revit project using [Revit API](https://help.autodesk.com/view/RVT/2025/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Basic_Interaction_with_Revit_Elements_Parameters_Shared_Parameters_html)
+- List parameters from Forma hub  using [Parameters API](https://aps.autodesk.com/en/docs/parameters/v1/overview/introduction/)
+- Add selected parameters from Forma hub to Revit project using [Revit API](https://help.autodesk.com/view/RVT/2025/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Basic_Interaction_with_Revit_Elements_Parameters_Shared_Parameters_html)
 
 
 # Thumbnail
@@ -29,7 +29,7 @@ This sample demonstrates the following features:
 
 - Start Revit, Open a Revit project, goto `ACC Parameters` tab and click `ACC Parameters` button, or goto `Add-Ins` tab > `External Tools` > select the command `Command RevitParametersAddin`, login with your Autodesk credential
 - The `Parameters View Mananger` dialog pops up
-- Select ACC Hub, select collection, all the Revit compatible parameters will be listed
+- Select Forma Hub, select collection, all the Revit compatible parameters will be listed
 - Select the parameters, click `download parameter` button
 - Goto `Manage` Tab, and click `Project Parameters` button
 - The new parameters are added to the project parameters list
